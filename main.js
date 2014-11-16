@@ -59,7 +59,7 @@ var bot= {
       }
       return (maxi+1)%3;
     }(best_count);
-    self.postMessage({log:"final getHand"});
+    self.postMessage({log:this._private});
     return (fr+this._private.h_last)%3;
   },
   update:function(h0,h1,dt)
