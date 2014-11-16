@@ -10,12 +10,9 @@ var default_param={
 var param=default_param;
 var bot= {
   init: function(_param,data){
-    self.postMessage({log:"initializing markov"});
-    
   },
   getHand:function()
   {
-    self.postMessage({log:"start getHand"});
     if(this._private.history[0]===undefined){
       return (Math.random()*3)|0;
     }
@@ -48,9 +45,9 @@ var bot= {
         best_count=node.count;
       }
     }
+    var maxi=-1;
     var fr=function(count){
       var max=0;
-      var maxi=-1;
       for(var i=0;i<3;i++){
         if(count[i]>max){
           max=count[i];
@@ -59,10 +56,9 @@ var bot= {
       }
       return (maxi+1)%3;
     }(best_count);
-    self.postMessage({log:this._private});
     return (fr+this._private.h_last)%3;
   },
-  update:function(h0,h1,dt)
+  update:function(h1,h0,dt)
   {
     //relative to last hand
     h0r=(h0-this._private.h_last+3)%3;
@@ -94,8 +90,6 @@ var bot= {
 
     //update h_last
     this._private.h_last=h0;
-    self.postMessage({log:"final update"});
-    self.postMessage({log:this._private.node});
 
   },
   _private:
@@ -128,14 +122,11 @@ var bot= {
   }
 };
 self.onmessage=function(e){
+
   var token=e.data[0];
   var name=e.data[1];
   var args=e.data.slice(2);
-  try{
-    var rtn=bot[name].apply(bot,args);
-  }catch(error){
-    self.postMessage({log:error});
-  }
+  var rtn=bot[name].apply(bot,args);
   if(rtn===undefined){rtn="undefined";}
   self.postMessage({token:token,rtn:rtn});
 };
