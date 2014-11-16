@@ -58,9 +58,10 @@ var bot= {
       }
       return (maxi+1)%3;
     }(best_count);
+    self.postMessage({log:"final getHand"});
     return (fr+this._private.h_last)%3;
   },
-  update:function(h0,h1)
+  update:function(h0,h1,dt)
   {
     //relative to last hand
     h0r=(h0-this._private.h_last+3)%3;
@@ -92,6 +93,8 @@ var bot= {
 
     //update h_last
     this._private.h_last=h0;
+    self.postMessage({log:"final update"});
+    self.postMessage({log:this._private.node});
 
   },
   _private:
