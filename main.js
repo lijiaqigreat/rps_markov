@@ -15,6 +15,7 @@ var bot= {
   },
   getHand:function()
   {
+    self.postMessage({log:"start getHand"});
     if(this._private.history[0]===undefined){
       return (Math.random()*3)|0;
     }
